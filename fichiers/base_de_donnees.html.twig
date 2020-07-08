@@ -1,0 +1,28 @@
+[Base de donnees: GestRendeVous]
+[Table: Commisariat]
+[Champ: id, NomCom, AdresCom]
+[Fin Table: Commisariat]
+
+[Table: Demandeur]
+[Champ: id, NomsDem, DateNaissDem, TelDem, AdresDem]
+[Fin Table: Demandeur]
+
+[Table: Agent]
+[Champ: id, NomsAge, TelAge]
+[Fin Table: Agent]
+
+[Table: Calendrier]
+[Champ: id, Date ]
+[Fin Table: Calendrier]
+
+
+[Relation]
+
+1-  [Table: Commisariat] [1,n]-------------------------- [1,1] [Table: Agent]
+
+
+
+2-  [Table: Demandeur] [1,n]----------------------------- [1,n] [Table: Agent]
+                                [1,n] [Table: Calendrier]
+[Fin Relation]
+[ Fin Base de donnees: GestRendeVous]
