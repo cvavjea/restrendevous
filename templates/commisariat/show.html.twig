@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commisariat{% endblock %}
+
+{% block body %}
+    <h1>Commisariat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commisariat.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ commisariat.Nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ commisariat.Adresse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('commisariat_index') }}">back to list</a>
+
+    <a href="{{ path('commisariat_edit', {'id': commisariat.id}) }}">edit</a>
+
+    {{ include('commisariat/_delete_form.html.twig') }}
+{% endblock %}
