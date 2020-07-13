@@ -97,7 +97,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
         // rediriger vers un itinéraire "app_homepage" - d'où vous voulez
-        return new RedirectResponse($this->urlGenerator->generate('cncb_transpoter'));
+        return new RedirectResponse($this->urlGenerator->generate('template'));
     }
 
     protected function getLoginUrl()
