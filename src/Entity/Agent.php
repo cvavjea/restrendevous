@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Agent
      * @ORM\JoinColumn(nullable=false)
      */
     private $commisariat;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Prendre", mappedBy="Agents")
+     */
+    private $prendres;
+
+    public function __construct()
+    {
+        $this->prendres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,37 @@ class Agent
     public function setCommisariat(?Commisariat $commisariat): self
     {
         $this->commisariat = $commisariat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prendre[]
+     */
+    public function getPrendres(): Collection
+    {
+        return $this->prendres;
+    }
+
+    public function addPrendre(Prendre $prendre): self
+    {
+        if (!$this->prendres->contains($prendre)) {
+            $this->prendres[] = $prendre;
+            $prendre->setAgents($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrendre(Prendre $prendre): self
+    {
+        if ($this->prendres->contains($prendre)) {
+            $this->prendres->removeElement($prendre);
+            // set the owning side to null (unless already changed)
+            if ($prendre->getAgents() === $this) {
+                $prendre->setAgents(null);
+            }
+        }
 
         return $this;
     }

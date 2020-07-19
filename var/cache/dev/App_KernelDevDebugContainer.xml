@@ -463,6 +463,13 @@
         <argument type="service" id=".service_locator.pNNo5z3.App\Controller\CommisariatController"/>
       </call>
     </service>
+    <service id="App\Controller\DemandeurController" class="App\Controller\DemandeurController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.pNNo5z3.App\Controller\DemandeurController"/>
+      </call>
+    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -493,6 +500,9 @@
     <service id="App\Form\CommisariatType" class="App\Form\CommisariatType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Form\DemandeurType" class="App\Form\DemandeurType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -513,6 +523,10 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\ImageRepository" class="App\Repository\ImageRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\PrendreRepository" class="App\Repository\PrendreRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -893,6 +907,7 @@
         <argument>App\Form\AgentType</argument>
         <argument>App\Form\CalendrierType</argument>
         <argument>App\Form\CommisariatType</argument>
+        <argument>App\Form\DemandeurType</argument>
         <argument>App\Form\UserType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -1223,7 +1238,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id=".service_locator.DuZS3uO"/>
+      <argument type="service" id=".service_locator.Tm0gi_V"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -3727,7 +3742,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id=".service_locator..GPlaww"/>
+      <argument type="service" id=".service_locator.2PGKQTf"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -5083,6 +5098,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CommisariatController" class="App\Controller\CommisariatController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CommisariatController" class="App\Controller\CommisariatController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\CommisariatController" class="App\Controller\CommisariatController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DemandeurController" class="App\Controller\DemandeurController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DemandeurController" class="App\Controller\DemandeurController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DemandeurController" class="App\Controller\DemandeurController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -5098,6 +5116,8 @@
     <service id=".abstract.instanceof.App\Form\CalendrierType" class="App\Form\CalendrierType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CommisariatType" class="App\Form\CommisariatType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\CommisariatType" class="App\Form\CommisariatType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DemandeurType" class="App\Form\DemandeurType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\DemandeurType" class="App\Form\DemandeurType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\UserType" class="App\Form\UserType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\AgentRepository" class="App\Repository\AgentRepository" autowire="true" abstract="true"/>
@@ -5110,6 +5130,8 @@
     <service id=".abstract.instanceof.App\Repository\DemandeurRepository" class="App\Repository\DemandeurRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ImageRepository" class="App\Repository\ImageRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\ImageRepository" class="App\Repository\ImageRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PrendreRepository" class="App\Repository\PrendreRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\PrendreRepository" class="App\Repository\PrendreRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.CmORmuK" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -5331,6 +5353,18 @@
         <argument key="commisariat" type="service" id=".errored..service_locator.U7ZiI9r.App\Entity\Commisariat"/>
       </argument>
     </service>
+    <service id=".service_locator.y39JIUi" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="demandeurRepository" type="service" id="App\Repository\DemandeurRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.7dJ41V2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="demandeur" type="service" id=".errored..service_locator.7dJ41V2.App\Entity\Demandeur"/>
+      </argument>
+    </service>
     <service id=".service_locator.q6jLs_L" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -5355,7 +5389,7 @@
         <argument key="user" type="service" id=".errored..service_locator.VPb8Zl0.App\Entity\User"/>
       </argument>
     </service>
-    <service id=".service_locator.BfoJnBs" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.lj9HCH8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AgentController::delete" type="service" id=".service_locator.x6NaOna"/>
@@ -5370,6 +5404,10 @@
         <argument key="App\Controller\CommisariatController::edit" type="service" id=".service_locator.U7ZiI9r"/>
         <argument key="App\Controller\CommisariatController::index" type="service" id=".service_locator.PGWpuO3"/>
         <argument key="App\Controller\CommisariatController::show" type="service" id=".service_locator.U7ZiI9r"/>
+        <argument key="App\Controller\DemandeurController::delete" type="service" id=".service_locator.7dJ41V2"/>
+        <argument key="App\Controller\DemandeurController::edit" type="service" id=".service_locator.7dJ41V2"/>
+        <argument key="App\Controller\DemandeurController::index" type="service" id=".service_locator.y39JIUi"/>
+        <argument key="App\Controller\DemandeurController::show" type="service" id=".service_locator.7dJ41V2"/>
         <argument key="App\Controller\SecurityController::inscriptionAction" type="service" id=".service_locator.XDMC2PQ"/>
         <argument key="App\Controller\SecurityController::login" type="service" id=".service_locator.q6jLs_L"/>
         <argument key="App\Controller\UserController::delete" type="service" id=".service_locator.VPb8Zl0"/>
@@ -5388,6 +5426,10 @@
         <argument key="App\Controller\CommisariatController:edit" type="service" id=".service_locator.U7ZiI9r"/>
         <argument key="App\Controller\CommisariatController:index" type="service" id=".service_locator.PGWpuO3"/>
         <argument key="App\Controller\CommisariatController:show" type="service" id=".service_locator.U7ZiI9r"/>
+        <argument key="App\Controller\DemandeurController:delete" type="service" id=".service_locator.7dJ41V2"/>
+        <argument key="App\Controller\DemandeurController:edit" type="service" id=".service_locator.7dJ41V2"/>
+        <argument key="App\Controller\DemandeurController:index" type="service" id=".service_locator.y39JIUi"/>
+        <argument key="App\Controller\DemandeurController:show" type="service" id=".service_locator.7dJ41V2"/>
         <argument key="App\Controller\SecurityController:inscriptionAction" type="service" id=".service_locator.XDMC2PQ"/>
         <argument key="App\Controller\SecurityController:login" type="service" id=".service_locator.q6jLs_L"/>
         <argument key="App\Controller\UserController:delete" type="service" id=".service_locator.VPb8Zl0"/>
@@ -5455,12 +5497,13 @@
       <argument type="service" id="debug.argument_resolver.not_tagged_controller.inner"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.DuZS3uO" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.Tm0gi_V" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\AgentType" type="service" id="App\Form\AgentType"/>
         <argument key="App\Form\CalendrierType" type="service" id="App\Form\CalendrierType"/>
         <argument key="App\Form\CommisariatType" type="service" id="App\Form\CommisariatType"/>
+        <argument key="App\Form\DemandeurType" type="service" id="App\Form\DemandeurType"/>
         <argument key="App\Form\UserType" type="service" id="App\Form\UserType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>
@@ -5494,7 +5537,7 @@
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
       </argument>
     </service>
-    <service id=".service_locator..GPlaww" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.2PGKQTf" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\AgentRepository" type="service" id="App\Repository\AgentRepository"/>
@@ -5502,6 +5545,7 @@
         <argument key="App\Repository\CommisariatRepository" type="service" id="App\Repository\CommisariatRepository"/>
         <argument key="App\Repository\DemandeurRepository" type="service" id="App\Repository\DemandeurRepository"/>
         <argument key="App\Repository\ImageRepository" type="service" id="App\Repository\ImageRepository"/>
+        <argument key="App\Repository\PrendreRepository" type="service" id="App\Repository\PrendreRepository"/>
         <argument key="App\Repository\UserRepository" type="service" id="App\Repository\UserRepository"/>
       </argument>
     </service>
@@ -5538,6 +5582,12 @@
     <service id=".service_locator.pNNo5z3.App\Controller\CommisariatController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\CommisariatController"/>
       <argument>App\Controller\CommisariatController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.pNNo5z3" method="withContext"/>
+    </service>
+    <service id=".service_locator.pNNo5z3.App\Controller\DemandeurController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator_context" id="App\Controller\DemandeurController"/>
+      <argument>App\Controller\DemandeurController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.pNNo5z3" method="withContext"/>
     </service>
@@ -5701,12 +5751,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.BfoJnBs"/>
+      <argument type="service" id=".service_locator.lj9HCH8"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-      <argument type="service" id=".service_locator.BfoJnBs"/>
+      <argument type="service" id=".service_locator.lj9HCH8"/>
     </service>
     <service id=".debug.http_client.inner" class="Symfony\Contracts\HttpClient\HttpClientInterface" public="false">
       <argument type="collection"/>
@@ -5755,6 +5805,7 @@
     <service id=".errored..service_locator.x6NaOna.App\Entity\Agent" class="App\Entity\Agent"/>
     <service id=".errored..service_locator.KYZU_7o.App\Entity\Calendrier" class="App\Entity\Calendrier"/>
     <service id=".errored..service_locator.U7ZiI9r.App\Entity\Commisariat" class="App\Entity\Commisariat"/>
+    <service id=".errored..service_locator.7dJ41V2.App\Entity\Demandeur" class="App\Entity\Demandeur"/>
     <service id=".errored..service_locator.VPb8Zl0.App\Entity\User" class="App\Entity\User"/>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <argument type="service" id=".service_locator.tph6R1E"/>
@@ -6220,7 +6271,7 @@
     <service id="mailer" alias="swiftmailer.mailer.default" public="true"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.CmORmuK" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.BfoJnBs"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.lj9HCH8"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="serializer.name_converter.metadata_aware"/>
     <service id="Psr\Log\LoggerInterface" alias="logger" public="false"/>
