@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TemplateController extends AbstractController
@@ -30,14 +31,29 @@ class TemplateController extends AbstractController
 
 
 
-    private function convertController(\Symfony\Component\Routing\Route $route)
+    /**
+     * @Route("/navbar", name="navbar")
+     */
+    public function topbar(): Response
     {
-        $nameParser = $this->get('controller_name_converter');
-        if ($route->hasDefault('_controller')) {
-            try {
-                $route->setDefault('_controller', $nameParser->build($route->getDefault('_controller')));
-            } catch (\InvalidArgumentException $e) {
-            }
-        }
+        return $this->render('navbar.html.twig');
     }
+
+    /**
+     * @Route("/asidebar", name="asidebar")
+     */
+    public function asidebar(): Response
+    {
+
+        return $this->render('asidebar.html.twig');
+    }
+
+    /**
+     * @Route("/footerbar", name="footerbar")
+     */
+    public function footerbar(): Response
+    {
+        return $this->render('footerbar.html.twig');
+    }
+
 }
