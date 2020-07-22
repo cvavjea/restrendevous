@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Prendre{% endblock %}
+
+{% block body %}
+    <h1>Create new Prendre</h1>
+
+    {{ include('prendre/_form.html.twig') }}
+
+    <a href="{{ path('prendre_index') }}">back to list</a>
+{% endblock %}

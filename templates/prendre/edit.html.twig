@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Prendre{% endblock %}
+
+{% block body %}
+    <h1>Edit Prendre</h1>
+
+    {{ include('prendre/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('prendre_index') }}">back to list</a>
+
+    {{ include('prendre/_delete_form.html.twig') }}
+{% endblock %}
