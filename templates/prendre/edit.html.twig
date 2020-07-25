@@ -1,13 +1,34 @@
-{% extends 'base.html.twig' %}
+{% extends 'loaderTemplate.html.twig' %}
 
-{% block title %}Edit Prendre{% endblock %}
+{% block title %}Prendre|Rende-vous{% endblock %}
 
-{% block body %}
-    <h1>Edit Prendre</h1>
+{% block main %}
+
+<div class="col-xl-8 col-lg-7">
+    <div class="card bg-success text-white shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Edite rende-vous</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Dropdown Header:</div>
+                </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
 
     {{ include('prendre/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('prendre_index') }}">back to list</a>
+    <a class="btn-primary" href="{{ path('prendre_index') }}"><i class="fa fa-list"></i> Liste</a>
 
     {{ include('prendre/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+

@@ -58,7 +58,7 @@ class UserType extends AbstractType
                 "attr"=>[
                     'class'=>"form-control"]
             ])
-            ->add('dialcode', Type\TextType::class);
+            ->add('dialcode', Type\TextType::class ,array("attr"=>array('placeholder'=>'code télephonique','class'=>"form-control")));
     }
 
     public function configureOptions(OptionsResolver $resolver)

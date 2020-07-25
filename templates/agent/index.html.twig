@@ -5,10 +5,10 @@
 {% block main %}
 
 <div class="col-xl-8 col-lg-7">
-    <div class="card shadow mb-4">
+    <div class="card bg-light text-white shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Ajouter un Agent</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Listes des  Agents</h6>
             <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -23,7 +23,6 @@
     <!-- Content Row -->
     <div class="row">
 
-        <h1>Agent index</h1>
 
         <table class="table">
             <thead>
@@ -41,19 +40,19 @@
                     <td>{{ agent.Noms }}</td>
                     <td>{{ agent.Tel }}</td>
                     <td>
-                        <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
-                        <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
+                        <a class="bg-light" href="{{ path('agent_show', {'id': agent.id}) }}"><i class="fa fa-eye"></i> </a>
+                        <a class="bg-primary" href="{{ path('agent_edit', {'id': agent.id}) }}"><i class="fa fa-edit"></i> </a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="4">Aucun enregistrement trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        <a href="{{ path('agent_new') }}">Create new</a>
+        <a class="btn btn-success" href="{{ path('agent_new') }}"><i class="fa fa-plus"></i> Ajouter</a>
 
     </div>
         </div>

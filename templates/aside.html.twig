@@ -1,12 +1,12 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('template') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">Gest <sup>rende-vous</sup></div>
     </a>
 
     <!-- Divider -->
@@ -14,9 +14,9 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ path('template') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Tableaux de bord</span></a>
     </li>
 
     <!-- Divider -->
@@ -38,9 +38,33 @@
                 <h6 class="collapse-header">Agent</h6>
                 <a class="collapse-item" href="{{ path('agent_index') }}">List</a>
                 <a class="collapse-item" href="{{ path('agent_new') }}">Ajouter</a>
+                <h6 class="collapse-header">Prendre</h6>
+                <a class="collapse-item" href="{{ path('prendre_index') }}">List</a>
+                <a class="collapse-item" href="{{ path('prendre_new') }}">Ajouter</a>
+                <h6 class="collapse-header">Commissariat</h6>
+                <a class="collapse-item" href="{{ path('commisariat_index') }}">List</a>
+                <a class="collapse-item" href="{{ path('commisariat_new') }}">Ajouter</a>
+                <h6 class="collapse-header">Demandeur</h6>
+                <a class="collapse-item" href="{{ path('demandeur_index') }}">List</a>
+                <a class="collapse-item" href="{{ path('demandeur_new') }}">Ajouter</a>
             </div>
         </div>
     </li>
+
+    <!-- Demandeur rende-vous -->
+{#    Todo: conditionner si c'est un demandeur ou un agent #}
+  {#  <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Rende-vous</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ path('prendre_index') }}">Mes rende-vous</a>
+                <a class="collapse-item" href="{{ path('prendre_new') }}">Prendre rende-vous</a>
+            </div>
+        </div>
+    </li>#}
 
 
     <!-- Divider -->
