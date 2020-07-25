@@ -207,7 +207,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.3"
     },
     "php-http/httplug": {
         "version": "2.1.0"
