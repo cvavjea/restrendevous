@@ -1,37 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'loaderTemplate.html.twig' %}
 
-{% block title %}Agent index{% endblock %}
+{% block title %}Agent|Rendez-vous{% endblock %}
 
-{% block body %}
-    <h1>Agent index</h1>
+{% block main %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">AGENT</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
 
-    <table class="table">
-        <thead>
+    <!-- Content Row -->
+    <div class="row">
+
+        <h1>Agent index</h1>
+
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Noms</th>
                 <th>Tel</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for agent in agents %}
-            <tr>
-                <td>{{ agent.id }}</td>
-                <td>{{ agent.Noms }}</td>
-                <td>{{ agent.Tel }}</td>
-                <td>
-                    <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
-                    <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for agent in agents %}
+                <tr>
+                    <td>{{ agent.id }}</td>
+                    <td>{{ agent.Noms }}</td>
+                    <td>{{ agent.Tel }}</td>
+                    <td>
+                        <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
+                        <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('agent_new') }}">Create new</a>
+        <a href="{{ path('agent_new') }}">Create new</a>
+
+    </div>
+
 {% endblock %}
