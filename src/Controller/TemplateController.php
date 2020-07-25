@@ -32,20 +32,20 @@ class TemplateController extends AbstractController
 
 
     /**
-     * @Route("/navbar", name="navbar")
+     * @Route("/topbar", name="topbar")
      */
     public function topbar(): Response
     {
-        return $this->render('navbar.html.twig');
+        return $this->render('topbar.html.twig');
     }
 
     /**
-     * @Route("/asidebar", name="asidebar")
+     * @Route("/aside", name="aside")
      */
-    public function asidebar(): Response
+    public function aside(): Response
     {
 
-        return $this->render('asidebar.html.twig');
+        return $this->render('aside.html.twig');
     }
 
     /**
