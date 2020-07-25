@@ -1,37 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'loaderTemplate.html.twig' %}
 
-{% block title %}Commisariat index{% endblock %}
+{% block title %}Commisariat|Rendez-vous{% endblock %}
 
-{% block body %}
-    <h1>Commisariat index</h1>
+{% block main %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for commisariat in commisariats %}
-            <tr>
-                <td>{{ commisariat.id }}</td>
-                <td>{{ commisariat.Nom }}</td>
-                <td>{{ commisariat.Adresse }}</td>
-                <td>
-                    <a href="{{ path('commisariat_show', {'id': commisariat.id}) }}">show</a>
-                    <a href="{{ path('commisariat_edit', {'id': commisariat.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Ajouter un Commisariat</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Dropdown Header:</div>
+                </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <!-- Content Row -->
+            <div class="row">
+                <h1>Commisariat Index</h1>
 
-    <a href="{{ path('commisariat_new') }}">Create new</a>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for commisariat in commisariats %}
+                        <tr>
+                            <td>{{ commisariat.id }}</td>
+                            <td>{{ commisariat.Nom }}</td>
+                            <td>{{ commisariat.Adresse }}</td>
+                            <td>
+                                <a href="{{ path('commisariat_show', {'id': commisariat.id}) }}">show</a>
+                                <a href="{{ path('commisariat_edit', {'id': commisariat.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('commisariat_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
