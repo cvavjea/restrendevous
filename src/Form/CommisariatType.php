@@ -14,6 +14,7 @@ class CommisariatType extends AbstractType
         $builder
             ->add('Nom')
             ->add('Adresse')
+            ->add('Tel')
         ;
     }
 

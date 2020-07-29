@@ -2,15 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Commisariat;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use function MongoDB\BSON\toJSON;
 
 /**
@@ -29,25 +36,62 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user_index_agent", name="user_index_agent", methods={"GET"})
+     */
+    public function index_agent(UserRepository $userRepository): Response
+    {
+        return $this->render('user/index.html.twig', [
+            'users' =>$userRepository->findByOneRole(User::ROLE_AGENT)
+        ]);
+    }
+
+    /**
+     * @Route("/user_index_demandeur", name="user_index_demandeur", methods={"GET"})
+     */
+    public function index_demandeur(UserRepository $userRepository): Response
+    {
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findByOneRole(User::ROLE_DEMANDEUR)
+        ]);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
+      //  dump($this->getRefererRoute($request));die();
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($this->getRefererRoute($request) == 'user_index_agent'){
+            $commisariat =  $entityManager->getRepository(Commisariat::class)
+            ->findAll();
+        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $user->setDateAjout(new \DateTime());
+            if ($this->getRefererRoute($request) == 'user_index_demandeur'){
+                $user->setRoles([User::ROLE_DEMANDEUR]);
+            }else{
+                $user->setRoles([User::ROLE_AGENT]);
+                $user->setCommisariat(
+                    $entityManager->getRepository(Commisariat::class)->find($request->get('commissariat'))
+                );
+            }
+
+                $user->setPassword($userPasswordEncoder->encodePassword($user,$form->get('plainPassword')->getData()));
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('template');
         }
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'commissariat' => isset($commisariat)?$commisariat:null,
         ]);
     }
 
@@ -68,17 +112,58 @@ class UserController extends AbstractController
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($this->getRefererRoute($request) == 'user_index_agent'){
+            $commisariat =  $entityManager->getRepository(Commisariat::class)
+                ->findAll();
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($this->getRefererRoute($request) == 'user_index_agent'){
+                $user->setCommisariat(
+                    $entityManager->getRepository(Commisariat::class)->find($request->get('commissariat'))
+                );
+            }
 
-            return $this->redirectToRoute('user_index');
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('template');
         }
 
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'commissariat' => isset($commisariat)?$commisariat:null,
         ]);
+    }
+
+
+
+
+    /**
+     * @Route("/{id}/chageToAgent", name="user_chageToAgent", methods={"GET","POST"})
+     */
+    public function chageToAgent(Request $request, User $user): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user->setRoles([User::ROLE_AGENT]);
+        $entityManager->flush();
+
+        return $this->redirectToRoute($this->getRefererRoute($request));
+    }
+
+
+    /**
+     * @Route("/{id}/chageToDemandeurs", name="user_chageToDemandeurs", methods={"GET","POST"})
+     */
+    public function chageToDemandeurs(Request $request, User $user): Response
+    {
+      //  dump($request->headers->get('referer'));die();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user->setRoles([User::ROLE_DEMANDEUR]);
+        $entityManager->flush();
+
+        return $this->redirectToRoute($this->getRefererRoute($request));
     }
 
     /**
@@ -86,7 +171,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -96,32 +181,23 @@ class UserController extends AbstractController
     }
 
 
-
     /**
-     * @Route("/cncb/trasporter", name="cncb_transpoter", methods={"GET"})
+     * @param Request $request
+     * @return mixed
      */
-    public function getCncb()
+    public function getRefererRoute(Request $request)
     {
+        //look for the referer route
+        $referer = $request->headers->get('referer');
 
-        $client = HttpClient::create();
-        $response = $client->request('GET', 'http://vgm.collabus.online/public/api/transporters?page=1');
+        $lastPath = substr($referer, strpos($referer, $request->getHost()));
+        $lastPath = str_replace($request->getHost(), '', $lastPath);
 
-        $statusCode = $response->getStatusCode();
-// $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
-// $contentType = 'application/json'
-        $content = $response->getContent();
-// $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
-//        dump($content['hydra:member']);exit();
-        return $this->render('transporter/index_cncb.html.twig', [
-            'transporters' => $content['hydra:member'],
-        ]);
+        $matcher = $this->get('router')->getMatcher();
+        $parameters = $matcher->match($lastPath);
+        $route = $parameters['_route'];
 
-   //  return  new JsonResponse($content,200);
+        return $route;
     }
-
-
-
 
 }

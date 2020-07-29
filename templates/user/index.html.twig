@@ -1,61 +1,92 @@
-{% extends 'base.html.twig' %}
+{% extends 'loaderTemplate.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Agent|Rendez-vous{% endblock %}
 
-{% block body %}
-    <h1>User index</h1>
+{% block main %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>ApiToken</th>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>Username</th>
-                <th>Enabled</th>
-                <th>Sexe</th>
-                <th>Tel</th>
-                <th>DateAjout</th>
-                <th>Dialcode</th>
-                <th>Adresse</th>
-                <th>Locked</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.apiToken }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-                <td>{{ user.sexe }}</td>
-                <td>{{ user.tel }}</td>
-                <td>{{ user.dateAjout ? user.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.dialcode }}</td>
-                <td>{{ user.adresse }}</td>
-                <td>{{ user.locked ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="16">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="col-xl-12 col-sm-12 col-lg-12">
+        <div class="card bg-light text-white shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Listes des Agents</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                         aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- Content Row -->
+                <div class="table">
 
-    <a href="{{ path('user_new') }}">Create new</a>
+
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Type</th>
+                            <th>Email</th>
+                            <th>LastName</th>
+                            <th>FirstName</th>
+                            <th>Sexe</th>
+                            <th>Tel</th>
+                            <th>DateAjout</th>
+                            <th>Adresse</th>
+                            <th>Commissariat</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>
+                                    {% for role in user.roles %}
+                                        {% if role ==  'ROLE_DEMANDEUR' %}
+                                           <span  class="btn btn-info disabled">DEMANDEUR</span>
+                                        {% elseif  role ==  'ROLE_AGENT' %}
+                                            <span  class="btn btn-info disabled">AGENT</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.lastName }}</td>
+                                <td>{{ user.firstName }}</td>
+                                <td>{{ user.sexe }}</td>
+                                <td>{{ user.tel }}</td>
+                                <td>{{ user.dateAjout ? user.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ user.adresse }}</td>
+                                <td>{{ user.commisariat ? user.commisariat.nom }}</td>
+                                <td>
+                                    {% for role in user.roles %}
+                                        {% if role ==  'ROLE_DEMANDEUR' %}
+                                            <a class="small" href="{{ path('user_chageToAgent', {'id': user.id}) }}">Agent</a>
+                                        {% elseif  role ==  'ROLE_AGENT' %}
+                                            <a class="small" href="{{ path('user_chageToDemandeurs', {'id': user.id}) }}">Demandeur</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    |<a class="small" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="16">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-success" href="{{ path('user_new') }}"><i class="fa fa-plus"></i> Ajouter</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

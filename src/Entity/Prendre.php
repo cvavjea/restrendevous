@@ -17,61 +17,86 @@ class Prendre
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Demandeur", inversedBy="prendres")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="prendres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $Demandeurs;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Agent", inversedBy="prendres")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="prendres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $Agents;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Calendrier", inversedBy="prendres")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Commisariat", inversedBy="prendres")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $Calendriers;
+    private $commisariat;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $Dateredevous;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDemandeurs(): ?Demandeur
+    public function getDemandeurs(): ?User
     {
         return $this->Demandeurs;
     }
 
-    public function setDemandeurs(?Demandeur $Demandeurs): self
+    public function setDemandeurs(?User $Demandeurs): self
     {
         $this->Demandeurs = $Demandeurs;
 
         return $this;
     }
 
-    public function getAgents(): ?Agent
+    public function getAgents(): ?User
     {
         return $this->Agents;
     }
 
-    public function setAgents(?Agent $Agents): self
+    public function setAgents(?User $Agents): self
     {
         $this->Agents = $Agents;
 
         return $this;
     }
 
-    public function getCalendriers(): ?Calendrier
+    /**
+     * @return mixed
+     */
+    public function getDateredevous()
     {
-        return $this->Calendriers;
+        return $this->Dateredevous;
     }
 
-    public function setCalendriers(?Calendrier $Calendriers): self
+    /**
+     * @param mixed $Dateredevous
+     */
+    public function setDateredevous($Dateredevous): void
     {
-        $this->Calendriers = $Calendriers;
+        $this->Dateredevous = $Dateredevous;
+    }
+
+
+
+    public function getCommisariat(): ?Commisariat
+    {
+        return $this->commisariat;
+    }
+
+    public function setCommisariat(?Commisariat $commisariat): self
+    {
+        $this->commisariat = $commisariat;
 
         return $this;
     }
+
 }

@@ -53,7 +53,6 @@ class SecurityController extends AbstractController
         $form = $this->createForm(UserType::class,$user);
         $form->handleRequest($request);
 
-        $dial = "";
 
         if($form->isSubmitted() && $form->isValid()){
             $user->setPassword($userPasswordEncoder->encodePassword($user,$form->get('plainPassword')->getData()));
@@ -73,11 +72,9 @@ class SecurityController extends AbstractController
             $this->get('session')->getFlashBag()->add("message","Vous avez été inscrit avec succès,
                                 Veuillez activer votre compte en cliquant sur le lien qui a ete envoyé dans votre boite mail");
         */    return $this->redirectToRoute('app_login');
-        }else{
-            $dial = User::defaultDialcode;
         }
 
-        return $this->render("user/register.html.twig", array('form'=>$form->createView(), 'defaultdialcode'=>$dial,));
+        return $this->render("user/register.html.twig", array('form'=>$form->createView()));
 
     }
 

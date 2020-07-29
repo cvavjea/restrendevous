@@ -25,6 +25,10 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Commissariat</th>
+                <th>Agent</th>
+                <th>Demandeur</th>
+                <th>rende-vous</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -32,9 +36,13 @@
         {% for prendre in prendres %}
             <tr>
                 <td>{{ prendre.id }}</td>
+                <td>{{ prendre.commisariat.nom }}</td>
+                <td>{{ prendre.agents.firstName ~' '~    prendre.agents.lastName }}</td>
+                <td>{{ prendre.demandeurs.firstName ~' '~    prendre.demandeurs.lastName }}</td>
+                <td>{{ prendre.dateredevous ? prendre.dateredevous|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a class="bg-light" href="{{ path('prendre_show', {'id': agent.id}) }}"><i class="fa fa-eye"></i> </a>
-                    <a class="bg-primary" href="{{ path('prendre_edit', {'id': agent.id}) }}"><i class="fa fa-edit"></i> </a>
+                    <a class="btn btn-danger" href="{{ path('prendre_show', {'id': prendre.id}) }}"><i class="fa fa-eye"></i> </a>
+                    <a class="btn btn-info" href="{{ path('prendre_edit', {'id': prendre.id}) }}"><i class="fa fa-edit"></i> </a>
 
                 </td>
             </tr>

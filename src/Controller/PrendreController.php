@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Prendre;
+use App\Entity\User;
 use App\Form\PrendreType;
 use App\Repository\PrendreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,12 +31,36 @@ class PrendreController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
         $prendre = new Prendre();
+        $entityManager = $this->getDoctrine()->getManager();
+
         $form = $this->createForm(PrendreType::class, $prendre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+            $max =count(
+                $entityManager->getRepository(User::class)
+                    ->findByOneRole(User::ROLE_AGENT)
+            );
+            if ($max == 0){
+                $request->getSession()->getFlashBag()->add('notice',
+                    [
+                        'message' => "Aucun agent nest disponible",
+                        'type' => 'danger',
+                        'title' => 'Error',
+
+                    ]);
+                return $this->redirectToRoute('template');
+            }
+           $prendre->setDateredevous(new \DateTime());
+           $prendre->setDemandeurs($this->getUser());
+           $prendre->setAgents(
+               $entityManager->getRepository(User::class)->find(
+                   random_int(1,$max)
+               )
+           );
             $entityManager->persist($prendre);
             $entityManager->flush();
 

@@ -28,28 +28,47 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Parametres</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Agent</h6>
-                <a class="collapse-item" href="{{ path('agent_index') }}">List</a>
-                <a class="collapse-item" href="{{ path('agent_new') }}">Ajouter</a>
-                <h6 class="collapse-header">Prendre</h6>
-                <a class="collapse-item" href="{{ path('prendre_index') }}">List</a>
-                <a class="collapse-item" href="{{ path('prendre_new') }}">Ajouter</a>
-                <h6 class="collapse-header">Commissariat</h6>
-                <a class="collapse-item" href="{{ path('commisariat_index') }}">List</a>
-                <a class="collapse-item" href="{{ path('commisariat_new') }}">Ajouter</a>
-                <h6 class="collapse-header">Demandeur</h6>
-                <a class="collapse-item" href="{{ path('demandeur_index') }}">List</a>
-                <a class="collapse-item" href="{{ path('demandeur_new') }}">Ajouter</a>
-            </div>
-        </div>
-    </li>
+    {% for role in app.user.roles %}
+        {% if role == 'ROLE_AGENT' %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Parametres</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <h6 class="collapse-header">Prendre</h6>
+                        <a class="collapse-item" href="{{ path('prendre_index') }}">List</a>
+                        <a class="collapse-item" href="{{ path('prendre_new') }}">Ajouter</a>
+                        <h6 class="collapse-header">Commissariat</h6>
+                        <a class="collapse-item" href="{{ path('commisariat_index') }}">List</a>
+                        <a class="collapse-item" href="{{ path('commisariat_new') }}">Ajouter</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ path('user_index_agent') }}" >
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Agents</span>
+                </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ path('user_index_demandeur') }}" >
+                <i class="fas fa-fw fa-user"></i>
+                <span>Demandes</span>
+            </a>
+        </li>
+        {% elseif role == 'ROLE_DEMANDEUR'   %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ path('prendre_new') }}" >
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Prendre Rende-vous</span>
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
 
     <!-- Demandeur rende-vous -->
 {#    Todo: conditionner si c'est un demandeur ou un agent #}

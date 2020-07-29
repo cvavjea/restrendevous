@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,17 +15,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
 
-    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-    const ROLE_ADMIN_LOCAL = 'ROLE_ADMIN_LOCAL';
-    const ROLE_SUPER_USER = 'ROLE_SUPER_USER';
+
     const ROLE_USER = 'ROLE_USER';
-    const ROLE_VISITEUR = 'ROLE_VISITEUR';
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_AGENT = 'ROLE_AGENT';
+    const ROLE_DEMANDEUR = 'ROLE_DEMANDEUR';
 
     const Femme = 'Femme';
     const Homme = 'Homme';
-    const defaultDialcode = '225';
-    const dev_admin_password = "ghJKK355HJ";
+
+
 
     /**
      * @ORM\Id()
@@ -41,7 +41,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [User::ROLE_ADMIN];
+    private $roles = [User::ROLE_DEMANDEUR];
 
     /**
      * @Assert\NotBlank(message="Vous devez remplir ce champ")
@@ -115,12 +115,6 @@ class User implements UserInterface
      */
     private $dateAjout ;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dialcode", type="string", length=255, nullable=true )
-     */
-    private $dialcode;
 
     /**
      * @var string
@@ -144,7 +138,17 @@ class User implements UserInterface
      */
     private $locked=false;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Prendre", mappedBy="user")
+     */
+    private $prendres;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Commisariat", inversedBy="User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $commisariat;
 
 
 
@@ -367,21 +371,7 @@ class User implements UserInterface
         $this->dateAjout = $dateAjout;
     }
 
-    /**
-     * @return string
-     */
-    public function getDialcode(): string
-    {
-        return(string)  $this->dialcode;
-    }
 
-    /**
-     * @param string $dialcode
-     */
-    public function setDialcode(string $dialcode): void
-    {
-        $this->dialcode = $dialcode;
-    }
 
     /**
      * @return string
@@ -431,7 +421,47 @@ class User implements UserInterface
         $this->locked = $locked;
     }
 
+    /**
+     * @return Collection|Prendre[]
+     */
+    public function getPrendres(): Collection
+    {
+        return $this->prendres;
+    }
 
+    public function addPrendre(Prendre $prendre): self
+    {
+        if (!$this->prendres->contains($prendre)) {
+            $this->prendres[] = $prendre;
+            $prendre->setDemandeurs($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrendre(Prendre $prendre): self
+    {
+        if ($this->prendres->contains($prendre)) {
+            $this->prendres->removeElement($prendre);
+            // set the owning side to null (unless already changed)
+            if ($prendre->getDemandeurs() === $this) {
+                $prendre->setDemandeurs(null);
+            }
+        }
+
+        return $this;
+    }
+    public function getCommisariat(): ?Commisariat
+    {
+        return $this->commisariat;
+    }
+
+    public function setCommisariat(?Commisariat $commisariat): self
+    {
+        $this->commisariat = $commisariat;
+
+        return $this;
+    }
 
 
 }

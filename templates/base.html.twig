@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-   <title> {% block title %}{% endblock %}</title>
+    <title> {% block title %}{% endblock %}</title>
     <link rel="stylesheet"
           href="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/fontawesome-free/css/all.min.css') }}"
           type="text/css"/>
     <link rel="stylesheet" href="{{ asset('startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.min.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/notifyjs-master/dist/styles/metro/notify-metro.css') }}"/>
 
     {% block stylesheets %}{% endblock %}
 </head>
@@ -27,11 +29,11 @@
         <div id="content">
             {% block topbar %}{% endblock %}
             <div class="container-fluid">
-            {% block main %}{% endblock %}
+                {% block main %}{% endblock %}
             </div>
         </div>
         <!-- End of Main Content -->
-            {% block footer %}{% endblock %}
+        {% block footer %}{% endblock %}
 
     </div>
     <!-- End of Content Wrapper -->
@@ -45,7 +47,8 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -55,7 +58,8 @@
                 </button>
             </div>
             <div class="modal-body">Sélectionnez «Déconnexion» ci-dessous si vous êtes
-                prêt à mettre fin à votre session en cours.</div>
+                prêt à mettre fin à votre session en cours.
+            </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <a class="btn btn-primary" href="{{ path('app_login') }}">Se déconnecter</a>
@@ -65,13 +69,34 @@
 </div>
 
 
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/sb-admin-2.min.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/notifyjs-master/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/notifyjs-master/dist/notify.js') }}"></script>
+<script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/notifyjs-master/dist/styles/metro/notify-metro.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        {% for notice in app.session.flashBag.get('notice') %}
+        $.notify
+        (
+            {
+                title: {{ notice.title }},
+                text:  {{ notice.message }},
+                image: "<i class='fa fa-mail-reply'></i>",
+            },
+            {
+                style: 'metro',
+                className:  {{ notice.type }},
+                autoHide: false,
+                clickToHide: true,
+            }
+        );
+        {% endfor %}
+    });
+</script>
 
-    <script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('startbootstrap-sb-admin-2-gh-pages/js/sb-admin-2.min.js') }}"></script>
-
-
-    {% block javascripts %}{% endblock %}
+{% block javascripts %}{% endblock %}
 </body>
 </html>

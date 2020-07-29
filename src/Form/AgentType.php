@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Agent;
 use App\Entity\Commisariat;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
